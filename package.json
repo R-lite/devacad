@@ -1,0 +1,22 @@
+{
+  "name": "express-mongodb--js-template",
+  "version": "1.0.0",
+  "main": "src/main.js",
+  "repository": "git@github.com:struckchure/express-mongodb--js-template.git",
+  "author": "Mohammed Al Ameen <ameenmohammed2311@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/main.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.9.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
