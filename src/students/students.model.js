@@ -8,6 +8,7 @@ const studentSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        index: true,
         required: true,
         max: 50,
         unique: true
