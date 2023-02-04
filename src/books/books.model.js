@@ -12,4 +12,4 @@ export const BookSchema = new mongoose.Schema({
   faculty: Array
 });
 
-export default mongoose.model("Book", BookSchema);
+export default mongoose.model("Books", BookSchema);
