@@ -2,7 +2,7 @@ import cors from "cors";
 import "dotenv/config";
 import express, { Router } from "express";
 import morgan from "morgan";
-
+import helmet from 'helmet';
 import mongoose from "mongoose";
 import booksRouter from "./books/books.router.js";
 
@@ -10,6 +10,8 @@ const app = express();
 
 const { MONGO_URI } = process.env;
 // connect database
+
+mongoose.set("strictQuery", true);
 
 mongoose.connect(MONGO_URI,{
     useNewUrlParser: true,
@@ -23,9 +25,9 @@ mongoose.connect(MONGO_URI,{
     console.error(error);
     process.exit(1);
   });
-mongoose.set("strictQuery", false);
 
-// middlewares
+
+// middlewares config
 
 app.use(express.json());
 app.use(
@@ -38,6 +40,7 @@ app.use(
     origin: "*",
   })
 );
+app.use(helmet());
 
 // routes
 const rootRouter = Router();

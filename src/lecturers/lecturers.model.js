@@ -18,4 +18,5 @@ const lecturerSchema = new mongoose.Schema({
     image_path: String,
 })
 
-export default mongoose.model("Lecturers", lecturerSchema);
+const lecturerModel = mongoose.model("Lecturers", lecturerSchema);
+export default lecturerModel;
