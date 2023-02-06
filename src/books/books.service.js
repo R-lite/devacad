@@ -1,13 +1,12 @@
-import BookModel from "./books.model.js";
+import {findBook, addNewBook} from "./books.dao.js";
 
-const bookModel = BookModel;
 
 export default class BookService {
   async listBooks() {
-    return await bookModel.find({});
+    return await findBook();
   }
 
   async addBook(bookData) {
-    return await bookModel.create(bookData);
+    return await addNewBook(bookData);
   }
 }
