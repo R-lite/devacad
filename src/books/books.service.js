@@ -1,12 +1,11 @@
 import {findBook, addNewBook} from "./books.dao.js";
 
-
 export default class BookService {
-  async listBooks() {
-    return await findBook();
+  async listBooks(reqBody, res) {
+    await findBook(reqBody, res);
   }
 
-  async addBook(bookData) {
-    return await addNewBook(bookData);
+  async addBook(reqBody, res) {
+    await addNewBook(reqBody, res);
   }
 }
