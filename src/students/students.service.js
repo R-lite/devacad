@@ -9,4 +9,10 @@ export default class StudentService {
     async register(req, res){
         studentAuth.register(req, res);
     }
+    async sendResetPasswordRequest(req, res){
+        studentAuth.sendResetPasswordRequest(req,res);
+    }
+    async resetPassword(req, res){
+        studentAuth.resetPassword(req, res);
+    }
 }

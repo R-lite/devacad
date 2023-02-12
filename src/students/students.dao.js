@@ -38,4 +38,15 @@ export default class StudentsDAO {
             return({created: false, response: err})
         }
     }
+
+    async updateStudentData(email, body){
+        try {
+            const updatedStudent = await studentModel.findOneAndUpdate(email, body);
+
+            return ({successful: true, response: updatedStudent})
+        } catch (err) {
+            return ({successful: false, response: err});
+        }
+        
+    }
 }

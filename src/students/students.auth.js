@@ -48,9 +48,11 @@ export default class StudentAuth {
                 semester,
             } = req.body;
     
-            const saltRounds = 12;
-            const salt = await bcrypt.genSalt(saltRounds);
-            const encryptedPassword = await bcrypt.hash(password, salt);
+            const encryptedPassword = encryptWithBcrypt(password);
+
+            if (typeof(encryptedPassword !== typeof(''))){
+                res.status(500).json({msg: "An error occured while hashing password"})
+            }
 
             // Pass the model creation to students dao
 
@@ -77,6 +79,69 @@ export default class StudentAuth {
             res.status(500).json(err);
         }
     }
+    
+    async sendResetPasswordRequest(req, res){
+        try {
+            const email = req.body;
+            const student = await studentsDAO.findStudent(email);
+
+            if (!student){
+                res.status(400).json({msg: "The student email provided does not exit in our database"})
+            }
+
+
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    }
+
+    async resetPassword(req, res){
+        try {
+            const {
+                email,
+                password
+            } = req.body;
+
+            const student = await studentsDAO.findStudent(email);
+
+            if (!student){
+                res.status(400).json({msg: 
+                    "Coudn't retrieve student from database! Make sure the student email is provided."
+                })
+            }
+
+            const encryptedPassword = encryptWithBcrypt(password);
+
+            if (typeof(encryptedPassword !== typeof(''))){
+                res.status(500).json({msg: "An error occured while hashing password"})
+            }
+
+            const {successful, response } = await studentsDAO.updateStudentData(
+                {email: email}, {password: encryptedPassword}
+                );
+
+            if (!successful){
+                res.status(500).json(response)
+            }
+
+            res.status(201).json(response);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    }
+}
+
+const encryptWithBcrypt = async(password) => {
+    try {
+        const saltRounds = 12;
+        const salt = await bcrypt.genSalt(saltRounds);
+        const encryptedPassword = await bcrypt.hash(password, salt);
+
+        return encryptedPassword;
+    } catch (err) {
+        return err;
+    }
+    
 }
 
 const generateToken = async(id) => {
@@ -94,7 +159,7 @@ const verifyToken = async(req, res, next) => {
         const verified = jwt.verify(token, process.env.JWT_SECRET);
         res.student = verified;
         next()
-        
+
     } catch (err) {
         res.status(500).json(err);
     }
