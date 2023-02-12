@@ -6,8 +6,8 @@ import morgan from "morgan";
 import helmet from 'helmet';
 import mongoose from "mongoose";
 import booksRouter from "./books/books.router.js";
-// import studentsRouter from "./students/students.router.js";
-// import lecturersRouter from "./lecturers/lecturers.router.js";
+import studentsRouter from "./students/students.router.js";
+import lecturersRouter from "./lecturers/lecturers.router.js";
 
 const app = express();
 
@@ -50,7 +50,7 @@ app.use(helmet());
 // routes
 
 app.use("/api/v1/books", booksRouter);
-// app.use("/api/v1/students", studentsRouter);
-// app.use("/api/v1/lecturers", lecturersRouter);
+app.use("/api/v1/students", studentsRouter);
+app.use("/api/v1/lecturers", lecturersRouter);
 
 export default app;
