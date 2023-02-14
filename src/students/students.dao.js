@@ -11,15 +11,17 @@ export default class StudentsDAO {
         }
         
     }
-    async findStudentByID(studentID){   
+
+    async findStudentByID(studentId){   
         try {
-            const student = await studentModel.findById(studentID);
+            const student = await studentModel.findById(studentId);
 
             return student;
         } catch (err) {
             return null;
         }
     }
+
     async createNewStudent(data){
         try {
             const {
@@ -64,7 +66,33 @@ export default class StudentsDAO {
             return ({successful: true, response: updatedStudent})
         } catch (err) {
             return ({successful: false, response: err});
+        }   
+    }
+
+    async getNotifications(studentId){
+        try {
+            const studentNotifiacations = await studentModel.findById(studentId).select('notifications -_id');
+
+            return studentNotifiacations;
+        } catch (err) {
+            return null
         }
-        
+    }
+
+    async clearNotifications(studentId){
+        try {
+            const student = await this.findStudentByID(studentId);
+
+            if (!student){
+                return ({successful: false})
+            }
+
+            student.notifications = [];
+            student.save();
+
+            return ({successful: true})
+        } catch (err) {
+            return ({successful: false});
+        }  
     }
 }

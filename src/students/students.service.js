@@ -1,21 +1,11 @@
 import nodemailer from "nodemailer";
-import StudentsAuth from "./students.auth";
 import StudentsDAO from "./students.dao";
 import { encryptWithBcrypt } from "./students.auth.js";
 
 
 const studentsDAO = new StudentsDAO();
-const studentAuth = new StudentsAuth();
 
 export default class StudentService {
-    async login(req, res){
-        studentAuth.login(req, res);
-    }
-
-    async register(req, res){
-        studentAuth.register(req, res);
-    }
-
     async sendResetPasswordRequest(req, res){
         try {
             const email = req.body;
@@ -35,7 +25,7 @@ export default class StudentService {
 
             const mailOptions = {
                 from: 'dev-engs.email@gmail.com',
-                to: 'muminraj15@gmail.com',
+                to: `${email}`,
                 subject: 'Reset Your Password',
                 Text: 'Click on this link to reset your password'
             }
@@ -88,11 +78,12 @@ export default class StudentService {
         }
     }
 
+    // MENTOR OPERATION SERVICES
     async getMentorsFullData(req, res){
         try {
-            const userId = req.params;
+            const studentId = req.params;
 
-            const student = await studentsDAO.findStudentByID(userId);
+            const student = await studentsDAO.findStudentByID(studentId);
 
             if (!student){
                 res.status(400).json({msg: "Student does not exist"})
@@ -106,7 +97,40 @@ export default class StudentService {
 
             
         } catch (err) {
-            
+            res.status(500).json(err);
+        }
+    }
+
+    // STUDENT SETTING SERVICE
+
+    // GET OR UPDATE NOTIFICATION SERVICES
+    async getNotifications(req, res){
+        try {
+            const studentId = req.params;
+            const studentNotifiacations = await studentsDAO.getNotifiacations(studentId);
+
+            if (!studentNotifiacations){
+                res.status(500).json({msg: "Could not retrieve student notifications"})
+            }
+
+            res.status(200).json({notifications: studentNotifiacations})
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    }
+
+    async clearNotifications(req, res){
+        try {
+            const studentId = req.params;
+            const clearNotifiacations = await studentsDAO.clearNotifiacations(studentId);
+
+            if(!clearNotifiacations.successful){
+                res.status(500).json("An internal server error occured!")
+            }
+
+            res.status(200).json({msg: "Student Notifiacations has been cleared"})
+        } catch (err) {
+            res.status(500).json(err);
         }
     }
 }

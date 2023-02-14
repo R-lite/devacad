@@ -15,45 +15,47 @@ const settingsSubSchema = new mongoose.Schema({
             default: false,
         },
     },
-    notifications: {
+    notification_settings: {
         type: Array,
         default: []
     }
 })
 
 const studentSchema = new mongoose.Schema({
-    full_name: {
-        type: String,
-        required: true,
-        min: 5
+        full_name: {
+            type: String,
+            required: true,
+            min: 5
+        },
+        email: {
+            type: String,
+            index: true,
+            required: true,
+            max: 50,
+            unique: true
+        },
+        password: {
+            type: String,
+            required: true
+        },
+        phone_number: String,
+        image_path: String,
+        faculty: String,
+        department: String,
+        level: Number,
+        course_list: [{
+            name: String,
+            liked: Boolean,
+            progress: Number,
+            status: String
+        }],
+        settings: [settingsSubSchema],
+        mentors: {
+            type: [String],
+            default: []
+        },
+        notifications: [Strings]
     },
-    email: {
-        type: String,
-        index: true,
-        required: true,
-        max: 50,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    phone_number: String,
-    image_path: String,
-    faculty: String,
-    department: String,
-    level: Number,
-    course_list: [{
-        name: String,
-        liked: Boolean,
-        progress: Number,
-        status: String
-    }],
-    settings: [settingsSubSchema],
-    mentors: {
-        type: [String],
-        default: []
-    }},
     {timestamps: true}
 )
 
