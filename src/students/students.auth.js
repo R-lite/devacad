@@ -15,7 +15,7 @@ export default class StudentsAuth {
             const student = await studentsDAO.findStudent(email);
 
             if (!student){
-                res.status(400).json({msg: "User does not exist"})
+                res.status(400).json({msg: "Student does not exist"})
             }
 
             const isMatch = bcrypt.compare(password, student.password);

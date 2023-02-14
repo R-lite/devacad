@@ -9,10 +9,15 @@ export default class StudentController {
     async register(req, res) {
         studentService.register(req, res);
     }
+
     async sendResetPasswordRequest(req, res){
         studentService.sendResetPasswordRequest(req, res);
     }
     async resetPassword(req, res){
         studentService.resetPassword(req, res);
+    }
+
+    async getMentorsFullData(req, res){
+        studentService.getMentorsFullData(req, res);
     }
 }

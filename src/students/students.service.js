@@ -11,9 +11,11 @@ export default class StudentService {
     async login(req, res){
         studentAuth.login(req, res);
     }
+
     async register(req, res){
         studentAuth.register(req, res);
     }
+
     async sendResetPasswordRequest(req, res){
         try {
             const email = req.body;
@@ -83,6 +85,28 @@ export default class StudentService {
             res.status(201).json(response);
         } catch (err) {
             res.status(500).json(err);
+        }
+    }
+
+    async getMentorsFullData(req, res){
+        try {
+            const userId = req.params;
+
+            const student = await studentsDAO.findStudentByID(userId);
+
+            if (!student){
+                res.status(400).json({msg: "Student does not exist"})
+            }
+
+            const mentorList = student.mentors;
+
+            if (mentorList.length < 1){
+                res.status(400).json({msg: "Mentor list is empty"})
+            }
+
+            
+        } catch (err) {
+            
         }
     }
 }

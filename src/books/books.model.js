@@ -1,5 +1,27 @@
 import mongoose from "mongoose";
 
+const BooksCatalogueingSchema = new mongoose.Schema({
+  faculty: [
+    {
+      name: String,
+      image_path: String,
+      departments: [
+        {
+          name: String,
+          image_path: String,
+          levels: [
+            {
+              level: Number,
+              first_semester_books: [BookSchema],
+              second_semester_books: [BookSchema] 
+            }
+          ]
+        }
+      ]
+    }
+  ]
+})
+
 export const BookSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -15,14 +37,15 @@ export const BookSchema = new mongoose.Schema({
   completion_time: String,
   credit_load: Number,
   number_of_registered: Number,
-  department: {
-    type: Array,
-    requird: true
-  },
-  faculty: {
-    type: Array,
-    required: true
-  }
+  // MAY NOT BE NEEDED BECAUSE OF BOOKCATALOGUEING SCHEMA
+  // department: {
+  //   type: Array,
+  //   requird: true
+  // },
+  // faculty: {
+  //   type: Array,
+  //   required: true
+  // }
 });
 
 const bookModel = mongoose.model("Books", BookSchema);

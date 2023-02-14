@@ -2,8 +2,23 @@ import studentModel from "./students.model";
 
 export default class StudentsDAO {
     async findStudent(email){
-        const student = await studentModel.findOne({email: email});
-        return student;
+        try {
+            const student = await studentModel.findOne({email: email});
+
+            return student;
+        } catch (err) {
+            return null;
+        }
+        
+    }
+    async findStudentByID(studentID){   
+        try {
+            const student = await studentModel.findById(studentID);
+
+            return student;
+        } catch (err) {
+            return null;
+        }
     }
     async createNewStudent(data){
         try {
@@ -41,7 +56,10 @@ export default class StudentsDAO {
 
     async updateStudentData(email, body){
         try {
-            const updatedStudent = await studentModel.findOneAndUpdate(email, body);
+            const updatedStudent = await studentModel.findOneAndUpdate(email, body, {
+                new: true,
+                runValidators: true
+            });
 
             return ({successful: true, response: updatedStudent})
         } catch (err) {
