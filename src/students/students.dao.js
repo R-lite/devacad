@@ -69,11 +69,11 @@ export default class StudentsDAO {
         }   
     }
 
-    async getNotifications(studentId){
+    async getSpecificField(studentId, field){
         try {
-            const studentNotifiacations = await studentModel.findById(studentId).select('notifications -_id');
+            const queriedField = await studentModel.findById(studentId).select(`${field} -_id`);
 
-            return studentNotifiacations;
+            return queriedField;
         } catch (err) {
             return null
         }
@@ -95,4 +95,5 @@ export default class StudentsDAO {
             return ({successful: false});
         }  
     }
+
 }

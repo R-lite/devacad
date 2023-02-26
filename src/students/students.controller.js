@@ -1,10 +1,10 @@
 import StudentsAuth from "./students.auth";
-import StudentService from "./students.service";
+import StudentsService from "./students.service";
 
-const studentService = new StudentService();
+const studentService = new StudentsService();
 const studentAuth = new StudentsAuth();
 
-export default class StudentController {
+export default class StudentsController {
     // LOGIN AND REGISTER CONTROLS
     async login(req, res){
         studentAuth.login(req, res);
@@ -36,5 +36,14 @@ export default class StudentController {
 
     async clearNotifications(req, res){
         studentService.clearNotifications(req, res);
+    }
+
+    // STUDNETS COURSE CONTROLS
+    async getAllCourse(req, res){
+        studentService.getAllCourse(req, res);
+    }
+
+    async getCourseBooks(req, res){
+        studentService.getCourseBooks(req, res);
     }
 }

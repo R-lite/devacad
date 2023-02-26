@@ -5,7 +5,7 @@ import { encryptWithBcrypt } from "./students.auth.js";
 
 const studentsDAO = new StudentsDAO();
 
-export default class StudentService {
+export default class StudentsService {
     async sendResetPasswordRequest(req, res){
         try {
             const email = req.body;
@@ -81,7 +81,7 @@ export default class StudentService {
     // MENTOR OPERATION SERVICES
     async getMentorsFullData(req, res){
         try {
-            const studentId = req.params;
+            const {studentId} = req.params;
 
             const student = await studentsDAO.findStudentByID(studentId);
 
@@ -106,14 +106,15 @@ export default class StudentService {
     // GET OR UPDATE NOTIFICATION SERVICES
     async getNotifications(req, res){
         try {
-            const studentId = req.params;
-            const studentNotifiacations = await studentsDAO.getNotifiacations(studentId);
+            const {studentId} = req.params;
+            const field = 'notifications';
+            const studentNotifiacations = await studentsDAO.getSpecificField(studentId, field);
 
             if (!studentNotifiacations){
-                res.status(500).json({msg: "Could not retrieve student notifications"})
+                res.status(500).json({msg: "Could not retrieve student notifications"});
             }
 
-            res.status(200).json({notifications: studentNotifiacations})
+            res.status(200).json({notifications: studentNotifiacations});
         } catch (err) {
             res.status(500).json(err);
         }
@@ -121,7 +122,7 @@ export default class StudentService {
 
     async clearNotifications(req, res){
         try {
-            const studentId = req.params;
+            const {studentId} = req.params;
             const clearNotifiacations = await studentsDAO.clearNotifiacations(studentId);
 
             if(!clearNotifiacations.successful){
@@ -131,6 +132,33 @@ export default class StudentService {
             res.status(200).json({msg: "Student Notifiacations has been cleared"})
         } catch (err) {
             res.status(500).json(err);
+        }
+    }
+
+    // STUDNETS COURSE SERVICES
+    async getAllCourse(req, res){
+        try {
+            const {studentId} = req.params;
+            const field = 'course_list';
+            const studentCourses = await studentsDAO.getSpecificField(studentId, field);
+
+            if (!studentCourses){
+                res.status(500).json({msg: "Could not retrieve student Course List"});
+            }
+
+            res.status(200).json({courses: studentCourses});
+        } catch (err) {
+            res.json(500).json(err);
+        }
+    }
+
+    async getCourseBooks(req, res){
+        try {
+            const { sutdentId, courseDetails } = req.params;
+            
+            
+        } catch (err) {
+            
         }
     }
 }

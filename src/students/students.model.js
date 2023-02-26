@@ -44,8 +44,14 @@ const studentSchema = new mongoose.Schema({
         department: String,
         level: Number,
         course_list: [{
-            name: String,
-            liked: Boolean,
+            name: {
+                type: String,
+                unique: true,
+                required: true
+            },
+            completetion_time: String,
+            image_path: String,
+            stars: Number,
             progress: Number,
             status: String
         }],
