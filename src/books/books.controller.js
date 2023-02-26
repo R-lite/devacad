@@ -4,15 +4,12 @@ const bookService = new BookService();
 
 class BooksController {
   async listBooks(req, res) {
-    res.status(200).json(await bookService.listBooks());
+    await bookService.listBooks(req.body, res);
   }
 
   async addBook(req, res) {
     res.status(201).json(
-      await bookService.addBook({
-        title: req.body.title,
-        author: req.body.author,
-      })
+      await bookService.addBook(req.body, res)
     );
   }
 }
