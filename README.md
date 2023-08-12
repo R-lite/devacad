@@ -1,1 +1,1 @@
-# Starter Template for NodeJS, Express, MongoDB
+An education software.
